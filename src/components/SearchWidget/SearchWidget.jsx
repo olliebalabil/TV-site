@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import ShowCard from '../ShowCard/ShowCard'
 import SearchForm from '../SearchForm/SearchForm'
+import {useSort } from "../../context"
 
 export default function SearchWidget() {
   const [inputValue, setInputValue] = useState('')
   const [searchValue, setSearchValue] = useState('')
   const [showData, setShowData] = useState([])
-  const [sortOption, setSortOption] = useState('bestMatch')
-
+  const {sortOption} = useSort()
   function compareRating(a, b) {
     if (a.rating.average > b.rating.average) {
       return -1;
@@ -42,13 +42,9 @@ export default function SearchWidget() {
     setInputValue('')
   }
 
-  function handleSelect(e) {
-    setSortOption(e.target.value)
-  }
-
   return (
     <>
-      <SearchForm handleInput={handleInput} handleSubmit={handleSubmit} inputValue={inputValue} handleSelect={handleSelect} />
+      <SearchForm handleInput={handleInput} handleSubmit={handleSubmit} inputValue={inputValue}/>
       {
         showData.filter(show => show.image).map((show) => <ShowCard key={show.id} show={show} />)
       }
